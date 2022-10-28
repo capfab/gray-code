@@ -23,7 +23,7 @@ If possible, tell me how I can improve the code.
 
 Also, feel free to use as needed, please also give credit/refer to my github.
 
-![5-bit](patterns\pat_gray4.jpg?raw=true "This what 5-bit gray code looks like")
+![5_bit_image](https://github.com/capfab/gray-code/blob/main/patterns/pat_gray4.jpg)
 
 Take a look at this gif!
 
