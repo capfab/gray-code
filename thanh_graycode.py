@@ -87,8 +87,8 @@ for c in range(bit_no):
     # cv.waitKey()
 
 # Create GIF
-fp_in = "F:/web/codes/Gray-code/patterns/pat_gray*.jpg"
-fp_out = "F:/web/codes/Gray-code/graphics/Gray_code.gif"
+fp_in = "your_path/patterns/pat_gray*.jpg"
+fp_out = "your_path/patterns/Gray_code.gif"
 img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))] 
 img.save(fp=fp_out, format='GIF', append_images=imgs,
          save_all=True, duration=3000/bit_no, loop=0)

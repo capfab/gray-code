@@ -27,5 +27,5 @@ Also, feel free to use as needed, please also give credit/refer to my github.
 
 Take a look at this gif!
 
-![5-bit-gif](graphics\Gray_code.gif?raw=true "GIF for 5-bit codes")
+![gray_code_gif](https://github.com/capfab/gray-code/blob/main/graphics/Gray_code.gif)
 
