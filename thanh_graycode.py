@@ -1,20 +1,23 @@
-import math as mt
 import numpy as np
 import cv2 as cv
-import scipy.misc as smp
-import matplotlib.pyplot as plot
 import array as arr
-import math
-import os
-from PIL import Image, ImageDraw
+from PIL import Image
 import glob
 
 # Path
-path = "your_path/patterns"
+path = " "
+
 
 def generateGrayarr(n):
+    """Generate Gray Code array
+
+    :param n: Number of desired bits
+    :type n: int
+    :return: array of Gray code
+    :rtype: list
+    """
     # base case
-    if (n <= 0):
+    if n <= 0:
         return
     # 'arr' will store all generated codes
     arr = list()
@@ -25,7 +28,7 @@ def generateGrayarr(n):
     # 2*i codes from previously generated i codes.
     i = 2
     j = 0
-    while(True):
+    while True:
         if i >= 1 << n:
             break
         # Enter the previously generated codes
@@ -45,50 +48,60 @@ def generateGrayarr(n):
     #     print(arr[i])
     return arr
 
-# Driver Code
-# Set initial parameters
-im_h = 1080
-im_w = 1920
-# Number of bits
-bit_no = 5
-pat_max = 2**bit_no
-# Minimum shift distance in pixel
-shift_min = int(im_w/pat_max)
 
-arr_gray = generateGrayarr(bit_no)
+def main():
+    """Run main script to generate gray code
+    """
+    # Driver Code
+    # Set initial parameters
+    im_h = 1080
+    im_w = 1920
+    # Number of bits
+    bit_no = 5
+    pat_max = 2**bit_no
+    # Minimum shift distance in pixel
+    shift_min = int(im_w / pat_max)
 
-# Create a 1080x1920x3 black images
-gray_pat_dict = {}
-for k in range(bit_no):
-    # calculate value
-    value = np.zeros((im_h,im_w,3), dtype=np.uint8)
-    gray_pat_dict[k] = value
+    arr_gray = generateGrayarr(bit_no)
 
-# Paste Gray code array to every pixel column
-for c in range(bit_no):
-    j = 0
-    i = 0
-    while i < len(gray_pat_dict[c][0,:]):
-        left_pos = i
-        right_pos = (j+1)*shift_min
-        # print(left_pos)
-        # print(right_pos)
-        gray_pat_dict[c][:,left_pos:right_pos,0] = 255*int(arr_gray[j][c])
-        gray_pat_dict[c][:,left_pos:right_pos,1] = 255*int(arr_gray[j][c])
-        gray_pat_dict[c][:,left_pos:right_pos,2] = 255*int(arr_gray[j][c])
-        j = j+1
-        i = i+shift_min
-        if j == len(arr_gray):
-            j = 0
-            continue
-    img_path = path + "/pat_gray" + str(c) + '.jpg'
-    cv.imwrite(img_path, gray_pat_dict[c])
-    # cv.imshow("test", gray_pat_dict[c])
-    # cv.waitKey()
+    # Create a 1080x1920x3 black images
+    gray_pat_dict = {}
+    for k in range(bit_no):
+        # calculate value
+        value = np.zeros((im_h, im_w, 3), dtype=np.uint8)
+        gray_pat_dict[k] = value
 
-# Create GIF
-fp_in = "your_path/patterns/pat_gray*.jpg"
-fp_out = "your_path/patterns/Gray_code.gif"
-img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))] 
-img.save(fp=fp_out, format='GIF', append_images=imgs,
-         save_all=True, duration=3000/bit_no, loop=0)
+    # Paste Gray code array to every pixel column
+    for c in range(bit_no):
+        j = 0
+        i = 0
+        while i < len(gray_pat_dict[c][0, :]):
+            left_pos = i
+            right_pos = (j + 1) * shift_min
+            # print(left_pos)
+            # print(right_pos)
+            gray_pat_dict[c][:, left_pos:right_pos, 0] = 255 * int(arr_gray[j][c])
+            gray_pat_dict[c][:, left_pos:right_pos, 1] = 255 * int(arr_gray[j][c])
+            gray_pat_dict[c][:, left_pos:right_pos, 2] = 255 * int(arr_gray[j][c])
+            j = j + 1
+            i = i + shift_min
+            if j == len(arr_gray):
+                j = 0
+                continue
+        img_path = path + "/pat_gray" + str(c) + ".jpg"
+        cv.imwrite(img_path, gray_pat_dict[c])
+        cv.imshow("test", gray_pat_dict[c])
+        cv.waitKey()
+
+    # Create GIF
+    fp_in = "patterns/pat_gray*.jpg"
+    fp_out = "graphics/Gray_code.gif"
+    img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
+    img.save(
+        fp=fp_out,
+        format="GIF",
+        append_images=imgs,
+        save_all=True,
+        duration=3000 / bit_no,
+        loop=0,
+    )
